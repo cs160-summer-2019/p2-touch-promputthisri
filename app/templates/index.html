@@ -85,17 +85,19 @@
 	</div>
   <script src="https://hammerjs.github.io/dist/hammer.js"></script>
   <script>
-   var panElement = document.getElementById('pan-box');
-   var PanMc = new Hammer(panElement);
-   PanMc.on("panleft panright", function(ev) {
-   panElement.textContent = ev.type +" gesture detected.";
-    });
+    //panning taking strait from hammer.com//
+   var myElement = document.getElementById('pan-box');
+   var mc = new Hammer(myElement);
+   mc.get('pan').set({ direction: Hammer.DIRECTION_ALL });
+   mc.on("panleft panright panup pandown tap press", function(ev) {
+   myElement.textContent = ev.type +" gesture detected.";
+});
   </script>
 	<script>
     //tap//
    var tapElement = document.getElementById('tap-box'); 
    var TapMc = new Hammer.Manager(tapElement);
-    var tracker = false;
+   var tracker = false;
    TapMc.add( new Hammer.Tap({ event: 'doubletap', taps: 2 }) );
    TapMc.add( new Hammer.Tap({ event: 'singletap' }) );
    TapMc.get('doubletap').recognizeWith('singletap');
@@ -131,10 +133,11 @@
  
   </script>
   <script>
+    //pinching//
    var pinchElement = document.getElementById('pinch-box');
    var pinchmc = new Hammer.Manager(pinchElement);
    var pinch = new Hammer.Pinch();
-    var tracker = false;
+   var tracker = false;
    pinchmc.add(pinch);
    pinchmc.on("pinch", function(ev) {
      if (tracker) {
@@ -145,6 +148,29 @@
         tracker = !(tracker); 
      }
     });
+  </script>
+  <script>
+    //press//
+   var pressElement = document.getElementById('press-box');
+   var mc = new Hammer(pressElement);
+   mc.on("panleft panright tap press", function(ev) {
+    if (tracker) {
+        pressElement.style.color = "red";
+        tracker = !(tracker); 
+     } else {
+        pressElement.style.color = "blue";
+        tracker = !(tracker); 
+     }
+    });
+  </script>
+  <script>
+    //swipe strait from hammer.com//
+   var swipeElement = document.getElementById('swipe-box');
+   var smc = new Hammer(swipeElement);
+   smc.get('swipe').set({ direction: Hammer.DIRECTION_ALL });
+   smc.on("swipeleft swiperight swipeup swipedown", function(ev) {
+   swipeElement.textContent = ev.type +" gesture detected.";
+});
   </script>
 </body>
 </html>
