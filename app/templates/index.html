@@ -83,8 +83,68 @@
 			</div>
 		</div>
 	</div>
+  <script src="https://hammerjs.github.io/dist/hammer.js"></script>
+  <script>
+   var panElement = document.getElementById('pan-box');
+   var PanMc = new Hammer(panElement);
+   PanMc.on("panleft panright", function(ev) {
+   panElement.textContent = ev.type +" gesture detected.";
+    });
+  </script>
 	<script>
-	  // your solution here
+    //tap//
+   var tapElement = document.getElementById('tap-box'); 
+   var TapMc = new Hammer.Manager(tapElement);
+    var tracker = false;
+   TapMc.add( new Hammer.Tap({ event: 'doubletap', taps: 2 }) );
+   TapMc.add( new Hammer.Tap({ event: 'singletap' }) );
+   TapMc.get('doubletap').recognizeWith('singletap');
+   TapMc.get('singletap').requireFailure('doubletap');
+    TapMc.on("singletap doubletap", function(ev) {
+     if (tracker) {
+        tapElement.style.color = "red";
+        tapElement.textContent = ev.type +" ";
+        tracker = !(tracker); 
+     } else {
+        tapElement.style.color = "blue";
+       tapElement.textContent = ev.type +" ";
+        tracker = !(tracker); 
+     }
+    });
+  </script>
+  <script>
+    //rotate//
+   var roElement = document.getElementById('rotate-box');
+   var romc = new Hammer.Manager(roElement);
+   var rotate = new Hammer.Rotate();
+   var tracker = false;
+   romc.add(rotate);
+   romc.on("rotate", function(ev) {
+     if (tracker) {
+        roElement.style.color = "red";
+        tracker = !(tracker); 
+     } else {
+        roElement.style.color = "blue";
+        tracker = !(tracker); 
+     }
+    });
+ 
+  </script>
+  <script>
+   var pinchElement = document.getElementById('pinch-box');
+   var pinchmc = new Hammer.Manager(pinchElement);
+   var pinch = new Hammer.Pinch();
+    var tracker = false;
+   pinchmc.add(pinch);
+   pinchmc.on("pinch", function(ev) {
+     if (tracker) {
+        pinchElement.style.color = "red";
+        tracker = !(tracker); 
+     } else {
+        pinchElement.style.color = "blue";
+        tracker = !(tracker); 
+     }
+    });
   </script>
 </body>
 </html>
